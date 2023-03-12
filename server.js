@@ -9,9 +9,13 @@ const __dirname = fileURLToPath(dirname(import.meta.url));
 const app = express();
 const PORT = 3001;
 
+app.get('/style.css', function (req, res) {
+  res.sendFile(__dirname + '/' + 'index.css');
+});
+
 app.get('/', (req, res) => {
   res.set('Content-Type', 'text/html');
-  res.send('<form method="post" action="/form"><input type="text"></input><button>redirect to form</button></form>');
+  res.sendFile('/template/form.html', { root: __dirname });
 });
 
 app.post('/form', (req, res) => {
@@ -26,11 +30,11 @@ app.get('/home', (req, res) => {
   res.sendFile('index.html', { root: __dirname });
 });
 
-app.listen(PORT, () => {
+app.listen(process.env.PORT || PORT, () => {
   console.log('listening port ' + PORT);
 });
 
-/*   if (req.url === '/form') {
+/*
     const data = fs.readFileSync('db.json', 'utf-8');
     const obj = JSON.parse(data);
     const UUID = crypto.randomUUID();
@@ -44,10 +48,6 @@ app.listen(PORT, () => {
     const stringify = JSON.stringify(obj);
 
     fs.writeFileSync('db.json', stringify);
-    res.writeHead(200, { 'Content-Type': ' text/html' });
-    res.write('<a href="/">BY DEFAULT</a>');
-    res.end();
-  } else {
-    res.end('status error 404');
-  }
-}); */
+
+
+  */
