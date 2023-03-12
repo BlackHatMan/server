@@ -9,16 +9,23 @@ const __dirname = fileURLToPath(dirname(import.meta.url));
 const app = express();
 const PORT = 3001;
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 app.get('/style.css', function (req, res) {
   res.sendFile(__dirname + '/' + 'index.css');
 });
 
 app.get('/', (req, res) => {
+  res.sendFile('index.html', { root: __dirname });
+});
+
+app.get('/form', (req, res) => {
   res.set('Content-Type', 'text/html');
   res.sendFile('/template/form.html', { root: __dirname });
 });
 
-app.post('/form', (req, res) => {
+app.get('/about', (req, res) => {
   res.set('Content-Type', 'text/plain');
   const data = fs.readFileSync('db.json', 'utf-8');
   const obj = JSON.parse(data);
@@ -26,28 +33,22 @@ app.post('/form', (req, res) => {
   res.send(obj);
 });
 
-app.get('/home', (req, res) => {
-  res.sendFile('index.html', { root: __dirname });
+app.post('/add_user', (req, res) => {
+  const data = fs.readFileSync('db.json');
+  const db = JSON.parse(data);
+
+  const obg = {
+    ...req.body,
+    UUID: crypto.randomUUID(),
+  };
+
+  db.push(obg);
+
+  fs.writeFileSync('db.json', JSON.stringify(db));
+  res.setHeader('Content-Type', 'application/json');
+  res.json(db);
 });
 
 app.listen(process.env.PORT || PORT, () => {
   console.log('listening port ' + PORT);
 });
-
-/*
-    const data = fs.readFileSync('db.json', 'utf-8');
-    const obj = JSON.parse(data);
-    const UUID = crypto.randomUUID();
-
-    obj.push({
-      name: 'lox',
-      age: Math.round(Math.random() * 30),
-      UUID,
-    });
-
-    const stringify = JSON.stringify(obj);
-
-    fs.writeFileSync('db.json', stringify);
-
-
-  */
