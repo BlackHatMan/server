@@ -1,15 +1,17 @@
+import { fileURLToPath } from 'url';
 import crypto from 'node:crypto';
-import fs from 'node:fs';
+import { dirname } from 'path';
 import express from 'express';
+import fs from 'node:fs';
+
+const __dirname = fileURLToPath(dirname(import.meta.url));
 
 const app = express();
 const PORT = 3001;
 
 app.get('/', (req, res) => {
   res.set('Content-Type', 'text/html');
-  res.send(
-    '<form method="post" action="/form" style=heigh ht:300px;><input type="text"></input><button>redirect to form</button></form>'
-  );
+  res.send('<form method="post" action="/form"><input type="text"></input><button>redirect to form</button></form>');
 });
 
 app.post('/form', (req, res) => {
@@ -18,6 +20,10 @@ app.post('/form', (req, res) => {
   const obj = JSON.parse(data);
 
   res.send(obj);
+});
+
+app.get('/home', (req, res) => {
+  res.sendFile('index.html', { root: __dirname });
 });
 
 app.listen(PORT, () => {
