@@ -27,10 +27,10 @@ app.get('/form', (req, res) => {
 
 app.get('/about', (req, res) => {
   res.set('Content-Type', 'text/plain');
-  const data = fs.readFileSync('db.json', 'utf-8');
-  const obj = JSON.parse(data);
-
-  res.send(obj);
+  fs.readFile('db.json', 'utf-8', (err, data) => {
+    if (err) console.error(err);
+    res.send(JSON.parse(data));
+  });
 });
 
 app.post('/add_user', (req, res) => {
@@ -44,7 +44,9 @@ app.post('/add_user', (req, res) => {
 
   db.push(obg);
 
-  fs.writeFileSync('db.json', JSON.stringify(db));
+  fs.writeFile('db.json', JSON.stringify(db), (err) => {
+    console.error(err);
+  });
   res.setHeader('Content-Type', 'application/json');
   res.json(db);
 });

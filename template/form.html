@@ -11,9 +11,9 @@
     <form class="form" action="/add_user" method="post">
       <div class="form-container">
         <label for="name">name</label>
-        <input type="text" name="name" id="name" />
+        <input type="text" name="name" id="name" required />
         <label for="age">age</label>
-        <input type="number" name="age" id="age" />
+        <input type="text" name="age" id="age" required pattern="\d+" maxlength="3" />
         <button type="submit">Sent</button>
       </div>
       <a href="/">go home</a>
