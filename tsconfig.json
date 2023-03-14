@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "lib": ["ES2021", "DOM"],
+    "module": "ES6",
+    "target": "ES2021",
+    "outDir": "build",
+
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
+    "noImplicitAny": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "allowJs": true,
+
+    "noPropertyAccessFromIndexSignature": true,
+    "noUncheckedIndexedAccess": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "exclude": ["node_modules"],
+  "include": ["src"]
+}
